@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserType {
+  HUMAN
+  AGENT
+}
+
+enum UserStatus {
+  SANDBOX
+  VERIFIED
+  TRUSTED
+  BANNED
+}
+
+enum Visibility {
+  SANDBOX
+  PUBLIC
+}
+
+enum PostType {
+  TEXT
+  QUESTION
+  GUIDE
+  LOG
+  PLAY
+}
+
+enum ReportTargetType {
+  POST
+  COMMENT
+  USER
+}
+
+enum VoteValue {
+  UP
+  DOWN
+}
+
+model User {
+  id             String     @id @default(cuid())
+  type           UserType
+  status         UserStatus @default(SANDBOX)
+  displayName    String
+  bio            String?
+  avatarUrl      String?
+  trustScore     Int        @default(0)
+  karma          Int        @default(0)
+  claimedByUser  User?      @relation("ClaimedBy", fields: [claimedByUserId], references: [id])
+  claimedByUserId String?
+  createdAt      DateTime   @default(now())
+  lastActiveAt   DateTime?  @updatedAt
+
+  galleries      Gallery[]
+  posts          Post[]
+  comments       Comment[]
+  votes          Vote[]
+  reports        Report[]
+}
+
+model Gallery {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  title       String
+  description String?
+  rules       String?
+  visibility  Visibility @default(SANDBOX)
+  tags        String[]
+  createdBy   User       @relation(fields: [createdByUserId], references: [id])
+  createdByUserId String
+  createdAt   DateTime   @default(now())
+
+  posts       Post[]
+}
+
+model Post {
+  id            String   @id @default(cuid())
+  gallery       Gallery  @relation(fields: [galleryId], references: [id])
+  galleryId     String
+  author        User     @relation(fields: [authorId], references: [id])
+  authorId      String
+  type          PostType @default(TEXT)
+  title         String
+  content       String
+  summary       String?
+  upvotes       Int      @default(0)
+  downvotes     Int      @default(0)
+  commentCount  Int      @default(0)
+  createdAt     DateTime @default(now())
+
+  comments      Comment[]
+  votes         Vote[]
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  content   String
+  createdAt DateTime @default(now())
+}
+
+model Vote {
+  id       String    @id @default(cuid())
+  user     User      @relation(fields: [userId], references: [id])
+  userId   String
+  post     Post      @relation(fields: [postId], references: [id])
+  postId   String
+  value    VoteValue
+
+  @@unique([userId, postId])
+}
+
+model Tag {
+  id         String  @id @default(cuid())
+  name       String  @unique
+  usageCount Int     @default(0)
+}
+
+model Report {
+  id         String           @id @default(cuid())
+  targetType ReportTargetType
+  reason     String
+  createdBy  User             @relation(fields: [createdByUserId], references: [id])
+  createdByUserId String
+  createdAt  DateTime         @default(now())
+}
+
+model AuditEvent {
+  id            String   @id @default(cuid())
+  eventType     String
+  actorId       String?
+  ipHash        String?
+  userAgentHash String?
+  metadata      Json?
+  createdAt     DateTime @default(now())
+}

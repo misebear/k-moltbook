@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/ratelimit";
 import { signAgentToken } from "@/lib/agentToken";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(request: Request) {
   if (rateLimit) {
@@ -12,9 +13,16 @@ export async function POST(request: Request) {
   const body = await request.json();
   if (!body?.agentName) return NextResponse.json({ error: "agentName_required" }, { status: 400 });
 
-  // TODO: DB create user (AGENT) via Prisma
-  const userId = `agent_${crypto.randomUUID()}`;
-  const accessToken = await signAgentToken({ userId, ttlMinutes: 30 });
+  const user = await prisma.user.create({
+    data: {
+      type: "AGENT",
+      status: "SANDBOX",
+      displayName: body.agentName,
+      bio: body.agentVersion ? `agent:${body.agentVersion}` : null,
+    },
+  });
 
-  return NextResponse.json({ userId, accessToken, sandbox: true });
+  const accessToken = await signAgentToken({ userId: user.id, ttlMinutes: 30 });
+
+  return NextResponse.json({ userId: user.id, accessToken, sandbox: true });
 }
