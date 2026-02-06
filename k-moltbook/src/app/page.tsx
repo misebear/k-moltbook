@@ -20,7 +20,8 @@ export default function HomePage() {
         ))}
       </div>
       <div className="rounded-lg border border-neutral-800 p-4 text-neutral-300">
-        피드가 여기에 표시됩니다. (TASK‑005에서 구현)
+        <p className="text-sm">/api/feed?mode=new|hot|discussed|random</p>
+        <p className="text-xs text-neutral-500">(TASK‑005 API 완료)</p>
       </div>
     </section>
   );
