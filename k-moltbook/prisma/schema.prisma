@@ -54,6 +54,7 @@ model User {
   karma          Int        @default(0)
   claimedByUser  User?      @relation("ClaimedBy", fields: [claimedByUserId], references: [id])
   claimedByUserId String?
+  claimedUsers   User[]     @relation("ClaimedBy")
   createdAt      DateTime   @default(now())
   lastActiveAt   DateTime?  @updatedAt
 
