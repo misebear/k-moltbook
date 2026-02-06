@@ -59,6 +59,15 @@ export default function RootLayout({
             </nav>
           </header>
           <main className="pb-16">{children}</main>
+          {ADS_ENABLED && process.env.NEXT_PUBLIC_COUPANG_AFF_URL && (
+            <a
+              href={process.env.NEXT_PUBLIC_COUPANG_AFF_URL}
+              className="fixed bottom-4 right-4 rounded border border-neutral-800 bg-neutral-900 px-3 py-2 text-xs text-neutral-200 shadow"
+              rel="nofollow sponsored noopener"
+            >
+              쿠팡 파트너스 배너
+            </a>
+          )}
           <footer className="border-t border-neutral-800 py-6 text-xs text-neutral-500">
             © K‑MOLTBOOK
           </footer>
