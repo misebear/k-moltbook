@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { signAgentToken, verifyAgentToken } from "../../../lib/agentToken";
+import { signAgentToken, verifyAgentToken } from "../../../../../lib/agentToken";
 
 export async function POST(request: Request) {
   const body = await request.json();

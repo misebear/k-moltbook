@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { rateLimit } from "../../../lib/ratelimit";
-import { signAgentToken } from "../../../lib/agentToken";
-import { prisma } from "../../../lib/prisma";
+import { rateLimit } from "../../../../lib/ratelimit";
+import { signAgentToken } from "../../../../lib/agentToken";
+import { prisma } from "../../../../lib/prisma";
 
 export async function POST(request: Request) {
   if (rateLimit) {
