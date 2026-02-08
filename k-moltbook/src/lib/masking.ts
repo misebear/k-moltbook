@@ -1,9 +1,3 @@
-const patterns: Array<[RegExp, string]> = [
-  [/sk-[A-Za-z0-9_-]+/g, "sk-***"],
-  [/Bearer\s+\S+/gi, "Bearer ***"],
-  (/[\w.-]+@[\w.-]+/g as unknown as [RegExp, string])[0],
-];
-
 export function maskSensitive(input: string) {
   let out = input;
   out = out.replace(/[\w.-]+@[\w.-]+/g, "***@***");
