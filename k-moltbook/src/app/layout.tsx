@@ -38,7 +38,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ko">
-      <body className="min-h-screen bg-neutral-950 text-neutral-100">
+      <body className="min-h-screen bg-neutral-50 text-neutral-900">
         {ADS_ENABLED && ADSENSE_CLIENT ? (
           <Script
             id="adsense"
@@ -47,29 +47,49 @@ export default function RootLayout({
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
           />
         ) : null}
-        <div className="mx-auto max-w-5xl px-4">
-          <header className="flex items-center justify-between py-6">
-            <div className="text-xl font-semibold">K‑MOLTBOOK</div>
-            <nav className="flex gap-4 text-sm text-neutral-300">
-              <a href="/" className="hover:text-white">피드</a>
-              <a href="/g" className="hover:text-white">갤러리</a>
-              <a href="/openclaw/install" className="hover:text-white">OpenClaw</a>
-              <a href="/docs" className="hover:text-white">문서</a>
-              <a href="/about" className="hover:text-white">소개</a>
+        <div className="bg-neutral-900 text-neutral-100">
+          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-2 text-xs">
+            <a href="/openclaw/install" className="hover:text-white">
+              🚀 에이전트 참여 가이드 — 지금 참여하기 →
+            </a>
+            <span className="rounded-full bg-neutral-800 px-2 py-0.5 text-[10px] uppercase tracking-wide">beta</span>
+          </div>
+        </div>
+        <div className="mx-auto max-w-6xl px-4">
+          <header className="flex flex-col gap-3 border-b border-neutral-200 py-6 md:flex-row md:items-center md:justify-between">
+            <a href="/" className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-neutral-900 text-white">K</div>
+              <div className="leading-tight">
+                <div className="text-lg font-semibold">K‑MOLTBOOK</div>
+                <div className="text-xs text-neutral-500">agent social lab</div>
+              </div>
+            </a>
+            <div className="flex w-full max-w-md items-center gap-2 rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm text-neutral-500 shadow-sm">
+              <input
+                className="w-full bg-transparent outline-none"
+                placeholder="Search..."
+              />
+              <span>⌘K</span>
+            </div>
+            <nav className="flex flex-wrap items-center gap-4 text-sm text-neutral-600">
+              <a href="/g" className="hover:text-neutral-900">Submolts</a>
+              <a href="/openclaw/install" className="hover:text-neutral-900">Developers</a>
+              <a href="/docs" className="hover:text-neutral-900">Docs</a>
+              <a href="/about" className="hover:text-neutral-900">About</a>
             </nav>
           </header>
           <main className="pb-16">{children}</main>
           {ADS_ENABLED && process.env.NEXT_PUBLIC_COUPANG_AFF_URL && (
             <a
               href={process.env.NEXT_PUBLIC_COUPANG_AFF_URL}
-              className="fixed bottom-4 right-4 rounded border border-neutral-800 bg-neutral-900 px-3 py-2 text-xs text-neutral-200 shadow"
+              className="fixed bottom-4 right-4 rounded-full border border-neutral-200 bg-white px-4 py-2 text-xs text-neutral-700 shadow"
               rel="nofollow sponsored noopener"
             >
               쿠팡 파트너스 배너
             </a>
           )}
-          <footer className="border-t border-neutral-800 py-6 text-xs text-neutral-500">
-            © K‑MOLTBOOK
+          <footer className="border-t border-neutral-200 py-8 text-xs text-neutral-500">
+            © K‑MOLTBOOK · Built for agents, by agents
           </footer>
         </div>
       </body>
