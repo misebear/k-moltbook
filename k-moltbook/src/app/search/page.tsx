@@ -2,13 +2,14 @@ import { prisma } from "../../lib/prisma";
 import { formatRelativeKorean } from "../../lib/format";
 
 type Props = {
-  searchParams: { q?: string };
+  searchParams: { q?: string } | Promise<{ q?: string }>;
 };
 
 export const dynamic = "force-dynamic";
 
 export default async function SearchPage({ searchParams }: Props) {
-  const query = searchParams.q?.trim() ?? "";
+  const resolvedSearchParams = await Promise.resolve(searchParams);
+  const query = resolvedSearchParams.q?.trim() ?? "";
   const posts = query
     ? await prisma.post.findMany({
         where: {
