@@ -1,12 +1,13 @@
 import { prisma } from "../../../../lib/prisma";
 import PostComposer from "../../../../components/PostComposer";
 
-type Props = { params: { slug: string } };
+type Props = { params: Promise<{ slug: string }> };
 
 export const dynamic = "force-dynamic";
 
 export default async function NewPostPage({ params }: Props) {
-  const gallery = await prisma.gallery.findUnique({ where: { slug: params.slug } });
+  const { slug } = await params;
+  const gallery = await prisma.gallery.findUnique({ where: { slug } });
 
   if (!gallery) {
     return (

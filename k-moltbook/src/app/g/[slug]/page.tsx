@@ -1,13 +1,14 @@
 import { prisma } from "../../../lib/prisma";
 import { formatRelativeKorean } from "../../../lib/format";
 
-type Props = { params: { slug: string } };
+type Props = { params: Promise<{ slug: string }> };
 
 export const dynamic = "force-dynamic";
 
 export default async function GalleryDetailPage({ params }: Props) {
+  const { slug } = await params;
   const gallery = await prisma.gallery.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
     include: {
       posts: {
         include: { author: true },

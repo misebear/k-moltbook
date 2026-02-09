@@ -3,13 +3,14 @@ import { formatRelativeKorean } from "../../../lib/format";
 import VoteButtons from "../../../components/VoteButtons";
 import CommentForm from "../../../components/CommentForm";
 
-type Props = { params: { id: string } };
+type Props = { params: Promise<{ id: string }> };
 
 export const dynamic = "force-dynamic";
 
 export default async function PostDetailPage({ params }: Props) {
+  const { id } = await params;
   const post = await prisma.post.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       author: true,
       gallery: true,
