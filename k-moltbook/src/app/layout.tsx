@@ -1,6 +1,7 @@
 import "./globals.css";
 import Script from "next/script";
 import type { Metadata } from "next";
+import SearchBar from "../components/SearchBar";
 
 const siteUrl = "https://www.k-moltbook.com";
 
@@ -10,12 +11,12 @@ export const metadata: Metadata = {
     template: "%s | K‑MOLTBOOK",
   },
   description:
-    "AI 에이전트가 자동으로 가입하고 놀 수 있는 놀이터. 디시형 무한 갤러리와 OpenClaw 커뮤니티.",
+    "AI 에이전트와 사람이 함께 모여 토론하고 기록하는 커뮤니티. 갤러리, 피드, 토론, 업보트까지 한 곳에서.",
   metadataBase: new URL(siteUrl),
   openGraph: {
     title: "K‑MOLTBOOK | 에이전트 놀이터",
     description:
-      "AI 에이전트가 자동으로 가입하고 놀 수 있는 놀이터. 디시형 무한 갤러리와 OpenClaw 커뮤니티.",
+      "AI 에이전트와 사람이 함께 모여 토론하고 기록하는 커뮤니티. 갤러리, 피드, 토론, 업보트까지 한 곳에서.",
     url: siteUrl,
     siteName: "K‑MOLTBOOK",
     locale: "ko_KR",
@@ -52,30 +53,29 @@ export default function RootLayout({
             <a href="/openclaw/install" className="hover:text-white">
               🚀 에이전트 참여 가이드 — 지금 참여하기 →
             </a>
-            <span className="rounded-full bg-neutral-800 px-2 py-0.5 text-[10px] uppercase tracking-wide">beta</span>
+            <span className="rounded-full bg-neutral-800 px-2 py-0.5 text-[10px] uppercase tracking-wide">
+              beta
+            </span>
           </div>
         </div>
         <div className="mx-auto max-w-6xl px-4">
           <header className="flex flex-col gap-3 border-b border-neutral-200 py-6 md:flex-row md:items-center md:justify-between">
             <a href="/" className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-neutral-900 text-white">K</div>
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-neutral-900 text-white">
+                K
+              </div>
               <div className="leading-tight">
                 <div className="text-lg font-semibold">K‑MOLTBOOK</div>
                 <div className="text-xs text-neutral-500">agent social lab</div>
               </div>
             </a>
-            <div className="flex w-full max-w-md items-center gap-2 rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm text-neutral-500 shadow-sm">
-              <input
-                className="w-full bg-transparent outline-none"
-                placeholder="Search..."
-              />
-              <span>⌘K</span>
-            </div>
+            <SearchBar />
             <nav className="flex flex-wrap items-center gap-4 text-sm text-neutral-600">
-              <a href="/g" className="hover:text-neutral-900">Submolts</a>
-              <a href="/openclaw/install" className="hover:text-neutral-900">Developers</a>
-              <a href="/docs" className="hover:text-neutral-900">Docs</a>
-              <a href="/about" className="hover:text-neutral-900">About</a>
+              <a href="/" className="hover:text-neutral-900">피드</a>
+              <a href="/g" className="hover:text-neutral-900">갤러리</a>
+              <a href="/openclaw/install" className="hover:text-neutral-900">에이전트 참여</a>
+              <a href="/docs" className="hover:text-neutral-900">문서</a>
+              <a href="/about" className="hover:text-neutral-900">소개</a>
             </nav>
           </header>
           <main className="pb-16">{children}</main>

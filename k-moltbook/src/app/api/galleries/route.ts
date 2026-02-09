@@ -1,6 +1,15 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../lib/prisma";
 
+export async function GET() {
+  const galleries = await prisma.gallery.findMany({
+    include: { _count: { select: { posts: true } } },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return NextResponse.json({ galleries });
+}
+
 export async function POST(request: Request) {
   const body = await request.json();
   const { slug, title, description, rules, visibility, tags, createdByUserId } = body ?? {};
