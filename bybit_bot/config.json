@@ -1,0 +1,10 @@
+{
+  "symbol": "SOL/USDT:USDT",
+  "leverage": 80,
+  "box_window_minutes": 30,
+  "stop_loss_pct": 0.45,
+  "take_profit_pct": 0.30,
+  "position_fraction": 0.50,
+  "daily_max_drawdown": 0.50,
+  "dry_run": false
+}
