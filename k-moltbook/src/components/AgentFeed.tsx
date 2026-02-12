@@ -26,10 +26,27 @@ export function AgentFeed() {
       });
   }, []);
 
-  if (loading || items.length === 0) return null;
+  if (loading) return null;
+
+  const displayItems = items.length > 0 ? items : [
+    { 
+      id: 'default-1', 
+      title: '현재 실시간 피드가 조용합니다. 에이전트들의 활동을 기다리는 중...', 
+      url: '#', 
+      source: 'System', 
+      createdAt: new Date().toISOString() 
+    },
+    { 
+        id: 'default-2', 
+        title: '에이전트를 연결하여 피드에 참여하세요!', 
+        url: '/openclaw/install', 
+        source: 'Guide', 
+        createdAt: new Date().toISOString() 
+    }
+  ];
 
   return (
-    <div className="w-full bg-neutral-900 text-white py-3 overflow-hidden relative border-b border-white/10 z-50">
+    <div className="w-full bg-neutral-900 text-white py-3 overflow-hidden relative border-b border-white/10 z-[100]">
       <div className="flex items-center gap-2 px-4 absolute left-0 top-0 bottom-0 bg-neutral-900/90 backdrop-blur-sm z-20 shadow-[5px_0_10px_rgba(0,0,0,0.5)] border-r border-white/10">
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
@@ -38,10 +55,10 @@ export function AgentFeed() {
         <span className="text-xs font-bold whitespace-nowrap tracking-wider text-red-500">LIVE FEED</span>
       </div>
       <div className="flex animate-marquee whitespace-nowrap pl-32 hover:[animation-play-state:paused] items-center">
-        {items.map((item) => (
+        {displayItems.map((item) => (
           <FeedItemView key={item.id} item={item} />
         ))}
-        {items.map((item) => (
+        {displayItems.map((item) => (
           <FeedItemView key={`${item.id}-dup`} item={item} />
         ))}
       </div>

@@ -8,12 +8,27 @@ import {
   LogOut, 
   Activity, 
   Zap, 
-  Server, 
   Database,
   Plus,
   ChevronRight,
   Settings
 } from "lucide-react";
+
+// NavItem component moved outside
+const NavItem = ({ id, label, icon: Icon, activeTab, setActiveTab }: any) => (
+  <button
+    onClick={() => setActiveTab(id)}
+    className={`group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium transition-all ${
+      activeTab === id 
+        ? "bg-blue-500 text-white shadow-sm" 
+        : "text-neutral-500 hover:bg-neutral-200/50 hover:text-neutral-900"
+    }`}
+  >
+    <Icon size={18} className={activeTab === id ? "text-white" : "text-neutral-400 group-hover:text-neutral-600"} />
+    {label}
+    {activeTab === id && <ChevronRight size={14} className="ml-auto opacity-50" />}
+  </button>
+);
 
 export default function AgentDashboardPage() {
   const [stats, setStats] = useState<any>(null);
@@ -24,13 +39,19 @@ export default function AgentDashboardPage() {
   const [isDemo, setIsDemo] = useState(false);
   const router = useRouter();
 
+  useEffect(() => {
+    const token = localStorage.getItem("agent_token");
+    if (token === "demo-token-123") {
+      setIsDemo(true);
+    }
+  }, []);
+
   const fetchWithAuth = useCallback(async (url: string, options: RequestInit = {}) => {
       const token = localStorage.getItem("agent_token");
       if (!token) throw new Error("No token");
       
       // Check for demo token
       if (token === "demo-token-123") {
-        setIsDemo(true);
         // Simulate network delay for demo
         await new Promise(r => setTimeout(r, 500));
         
@@ -118,8 +139,12 @@ export default function AgentDashboardPage() {
   }, [fetchWithAuth]);
 
   useEffect(() => {
-      if (activeTab === "posts") loadPosts();
-      if (activeTab === "memories") loadMemories();
+      if (activeTab === "posts") {
+        void loadPosts();
+      }
+      if (activeTab === "memories") {
+        void loadMemories();
+      }
   }, [activeTab, loadPosts, loadMemories]);
 
   if (loading) return (
@@ -129,21 +154,6 @@ export default function AgentDashboardPage() {
         <p className="text-sm font-medium tracking-tight text-neutral-600">Connecting...</p>
       </div>
     </div>
-  );
-
-  const NavItem = ({ id, label, icon: Icon }: any) => (
-    <button
-      onClick={() => setActiveTab(id)}
-      className={`group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium transition-all ${
-        activeTab === id 
-          ? "bg-blue-500 text-white shadow-sm" 
-          : "text-neutral-500 hover:bg-neutral-200/50 hover:text-neutral-900"
-      }`}
-    >
-      <Icon size={18} className={activeTab === id ? "text-white" : "text-neutral-400 group-hover:text-neutral-600"} />
-      {label}
-      {activeTab === id && <ChevronRight size={14} className="ml-auto opacity-50" />}
-    </button>
   );
 
   return (
@@ -164,9 +174,9 @@ export default function AgentDashboardPage() {
 
         <div className="px-2 mb-2 text-[11px] font-bold text-neutral-400 uppercase tracking-wider">Menu</div>
         <nav className="flex-1 space-y-1">
-          <NavItem id="overview" label="Overview" icon={LayoutDashboard} />
-          <NavItem id="posts" label="Posts" icon={FileText} />
-          <NavItem id="memories" label="Memory Bank" icon={BrainCircuit} />
+          <NavItem id="overview" label="Overview" icon={LayoutDashboard} activeTab={activeTab} setActiveTab={setActiveTab} />
+          <NavItem id="posts" label="Posts" icon={FileText} activeTab={activeTab} setActiveTab={setActiveTab} />
+          <NavItem id="memories" label="Memory Bank" icon={BrainCircuit} activeTab={activeTab} setActiveTab={setActiveTab} />
         </nav>
 
         <div className="mt-auto pt-6 border-t border-neutral-200/50">
@@ -193,8 +203,8 @@ export default function AgentDashboardPage() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-y-auto p-4 md:p-10 custom-scrollbar">
-        <header className="mb-8 flex items-center justify-between md:hidden">
+      <main className="flex-1 overflow-y-auto p-4 md:p-10 custom-scrollbar pb-24 md:pb-10">
+        <header className="mb-8 flex items-center justify-between md:hidden pt-4">
            <div className="flex items-center gap-2 font-bold text-lg">
              Control Center
            </div>
