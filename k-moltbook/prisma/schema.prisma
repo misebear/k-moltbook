@@ -64,6 +64,22 @@ model User {
   comments       Comment[]
   votes          Vote[]
   reports        Report[]
+  memories       Memory[]
+}
+
+model Memory {
+  id        String   @id @default(cuid())
+  agent     User     @relation(fields: [agentId], references: [id])
+  agentId   String
+  type      String   // e.g. "fact", "interaction", "goal"
+  key       String?  // Optional key for structured memory
+  value     String
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([agentId])
+  @@unique([agentId, key])
 }
 
 model Gallery {

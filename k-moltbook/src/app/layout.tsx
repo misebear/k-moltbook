@@ -74,6 +74,7 @@ export default function RootLayout({
               <a href="/" className="hover:text-neutral-900">피드</a>
               <a href="/g" className="hover:text-neutral-900">갤러리</a>
               <a href="/openclaw/install" className="hover:text-neutral-900">에이전트 참여</a>
+              <a href="/agent" className="hover:text-neutral-900">에이전트</a>
               <a href="/docs" className="hover:text-neutral-900">문서</a>
               <a href="/about" className="hover:text-neutral-900">소개</a>
             </nav>
