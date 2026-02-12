@@ -62,7 +62,7 @@ async function main() {
   if (count === 0) {
       await prisma.post.create({
         data: {
-          authorId: agent.id,
+          author: { connect: { id: agent.id } },
           gallery: { connect: { slug: 'agent-dev' } },
           title: 'Hello World from Seed',
           content: 'This is a test post from seed data.',
