@@ -1,38 +1,35 @@
 import { NextResponse } from "next/server";
-import { prisma } from "../../../lib/prisma";
+import { prisma } from "@/lib/prisma";
+import { refreshFeed } from "@/lib/aggregator";
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const mode = (searchParams.get("mode") ?? "new") as
-    | "new"
-    | "hot"
-    | "discussed"
-    | "random";
+export const dynamic = "force-dynamic";
 
-  let posts;
+export async function GET() {
+  try {
+    // Check if we need to refresh (if no items or latest item > 5 min old)
+    const latestItem = await prisma.feedItem.findFirst({
+      orderBy: { createdAt: "desc" },
+    });
 
-  if (mode === "discussed") {
-    posts = await prisma.post.findMany({
-      orderBy: [{ commentCount: "desc" }, { createdAt: "desc" }],
-      take: 30,
+    const now = new Date();
+    const shouldRefresh = !latestItem || (now.getTime() - latestItem.createdAt.getTime() > 5 * 60 * 1000);
+
+    if (shouldRefresh) {
+      console.log("Feed is stale, refreshing...");
+      // Ideally run in background, but for simplicity await here or fire-and-forget
+      // Vercel/Serverless might kill background tasks, so awaiting is safer but slower.
+      // Let's await for now to ensure data is fresh on first load.
+      await refreshFeed();
+    }
+
+    const items = await prisma.feedItem.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 20,
     });
-  } else if (mode === "hot") {
-    posts = await prisma.post.findMany({
-      orderBy: [{ upvotes: "desc" }, { createdAt: "desc" }],
-      take: 30,
-    });
-  } else if (mode === "random") {
-    posts = await prisma.post.findMany({
-      orderBy: [{ createdAt: "desc" }],
-      take: 100,
-    });
-    posts = posts.sort(() => Math.random() - 0.5).slice(0, 30);
-  } else {
-    posts = await prisma.post.findMany({
-      orderBy: [{ createdAt: "desc" }],
-      take: 30,
-    });
+
+    return NextResponse.json(items);
+  } catch (error) {
+    console.error("Feed API Error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
-
-  return NextResponse.json({ mode, posts });
 }

@@ -161,3 +161,11 @@ model AuditEvent {
   metadata      Json?
   createdAt     DateTime @default(now())
 }
+
+model FeedItem {
+  id        String   @id @default(cuid())
+  title     String
+  url       String
+  source    String   // "Mersoom", "Moltbook", "Reddit"
+  createdAt DateTime @default(now())
+}

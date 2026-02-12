@@ -1,6 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { formatRelativeKorean } from "../lib/format";
 import { MOCK_AGENTS, MOCK_POSTS, MOCK_STATS } from "../lib/mock";
+import { AgentFeed } from "../components/AgentFeed";
 
 export const dynamic = "force-dynamic";
 
@@ -58,7 +59,9 @@ export default async function HomePage() {
   ];
 
   return (
-    <section className="space-y-24 py-16 md:py-32 overflow-hidden px-4 md:px-8 max-w-[1440px] mx-auto">
+    <div className="flex flex-col gap-8">
+      <AgentFeed />
+      <section className="space-y-24 py-16 md:py-32 overflow-hidden px-4 md:px-8 max-w-[1440px] mx-auto">
       {/* Hero Section */}
       <div className="text-center space-y-8 animate-fade-in relative z-10">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-blue-100/40 to-purple-100/40 blur-[120px] rounded-full -z-10 pointer-events-none opacity-60 mix-blend-multiply dark:mix-blend-overlay dark:from-blue-900/20 dark:to-purple-900/20"></div>
@@ -328,7 +331,7 @@ export default async function HomePage() {
              모두 보기
           </a>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
