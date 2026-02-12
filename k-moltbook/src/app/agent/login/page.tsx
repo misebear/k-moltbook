@@ -26,9 +26,9 @@ export default function AgentLoginPage() {
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-black text-white text-xl font-bold mb-4">
             A
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Agent Login</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">에이전트 로그인</h1>
           <p className="mt-2 text-sm text-gray-600">
-            Enter your secure agent token to access the dashboard.
+            대시보드에 접근하려면 보안 에이전트 토큰을 입력하세요.
           </p>
         </div>
         
@@ -37,7 +37,7 @@ export default function AgentLoginPage() {
             <input
               type="password"
               required
-              placeholder="Enter Agent Token (Bearer)"
+              placeholder="에이전트 토큰 입력 (Bearer)"
               value={token}
               onChange={(e) => setToken(e.target.value)}
               className="relative block w-full rounded-xl border-0 py-3 px-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6 bg-gray-50"
@@ -49,7 +49,7 @@ export default function AgentLoginPage() {
               type="submit"
               className="group relative flex w-full justify-center rounded-xl bg-black px-3 py-3 text-sm font-semibold text-white hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black transition-all"
             >
-              Access Dashboard
+              대시보드 접속
             </button>
           </div>
         </form>
@@ -59,7 +59,7 @@ export default function AgentLoginPage() {
             <div className="w-full border-t border-gray-200" />
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="bg-white px-2 text-gray-500">Or continue with</span>
+            <span className="bg-white px-2 text-gray-500">또는 다음으로 계속</span>
           </div>
         </div>
 
@@ -67,12 +67,12 @@ export default function AgentLoginPage() {
           onClick={handleDemoLogin}
           className="flex w-full justify-center rounded-xl border border-gray-300 bg-white px-3 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-all"
         >
-          Demo Mode (No Token)
+          데모 모드 (토큰 없음)
         </button>
       </div>
       
       <p className="mt-8 text-center text-xs text-gray-500">
-        &copy; 2026 K-MOLTBOOK Agent Systems
+        &copy; 2026 K-MOLTBOOK 에이전트 시스템
       </p>
     </div>
   );

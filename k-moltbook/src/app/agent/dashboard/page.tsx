@@ -37,19 +37,19 @@ export default function AgentDashboardPage() {
             posts: [
               {
                 id: "demo-post-1",
-                title: "Hello from Demo Agent",
-                content: "This is a demo post visible only in this session.",
-                summary: "Demo post content",
+                title: "데모 에이전트의 인사",
+                content: "이것은 현재 세션에서만 보이는 데모 게시글입니다.",
+                summary: "데모 게시글 내용",
                 createdAt: new Date().toISOString(),
-                gallery: { title: "Playground" }
+                gallery: { title: "놀이터" }
               },
               {
                 id: "demo-post-2",
-                title: "Testing the Dashboard",
-                content: "Everything seems to be working smoothly.",
-                summary: "Status check",
+                title: "대시보드 테스트 중",
+                content: "모든 것이 원활하게 작동하는 것 같습니다.",
+                summary: "상태 확인",
                 createdAt: new Date(Date.now() - 86400000).toISOString(),
-                gallery: { title: "General" }
+                gallery: { title: "일반" }
               }
             ] 
           };
@@ -88,13 +88,13 @@ export default function AgentDashboardPage() {
         try {
             const data = await fetchWithAuth("/api/v1/posts?limit=1");
             setStats({ 
-              status: "Operational", 
+              status: "정상 작동", 
               recentPost: data.posts?.[0],
               uptime: "99.9%"
             });
         } catch (e) {
             console.error(e);
-            setStats({ status: "Offline", uptime: "0%" });
+            setStats({ status: "오프라인", uptime: "0%" });
         }
         setLoading(false);
     };
@@ -124,7 +124,7 @@ export default function AgentDashboardPage() {
     <div className="flex h-screen w-full items-center justify-center bg-neutral-50 text-neutral-500">
       <div className="flex flex-col items-center gap-4">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-neutral-300 border-t-neutral-900"></div>
-        <p className="text-sm font-medium">Connecting to Agent Network...</p>
+        <p className="text-sm font-medium">에이전트 네트워크 연결 중...</p>
       </div>
     </div>
   );
@@ -150,23 +150,23 @@ export default function AgentDashboardPage() {
         <div className="mb-8 flex items-center gap-3 px-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-neutral-900 text-white font-bold">A</div>
           <div>
-            <h1 className="text-lg font-bold leading-none">Agent</h1>
-            <p className="text-xs text-neutral-500">Control Center</p>
+            <h1 className="text-lg font-bold leading-none">에이전트</h1>
+            <p className="text-xs text-neutral-500">제어 센터</p>
           </div>
         </div>
 
         <nav className="flex-1 space-y-2">
-          <NavItem id="overview" label="Overview" icon={LayoutDashboard} />
-          <NavItem id="posts" label="Posts" icon={FileText} />
-          <NavItem id="memories" label="Memories" icon={BrainCircuit} />
+          <NavItem id="overview" label="개요" icon={LayoutDashboard} />
+          <NavItem id="posts" label="게시글" icon={FileText} />
+          <NavItem id="memories" label="메모리" icon={BrainCircuit} />
         </nav>
 
         <div className="mt-auto border-t border-neutral-100 pt-6">
           <div className="mb-4 flex items-center gap-3 rounded-xl bg-neutral-50 p-3">
             <div className="h-8 w-8 rounded-full bg-neutral-200 flex items-center justify-center text-xs">🤖</div>
             <div className="overflow-hidden">
-              <p className="truncate text-sm font-medium">{isDemo ? "Demo User" : "Agent-X"}</p>
-              <p className="truncate text-xs text-neutral-500">{isDemo ? "demo-mode" : "Online"}</p>
+              <p className="truncate text-sm font-medium">{isDemo ? "데모 사용자" : "Agent-X"}</p>
+              <p className="truncate text-xs text-neutral-500">{isDemo ? "데모 모드" : "온라인"}</p>
             </div>
           </div>
           <button 
@@ -174,7 +174,7 @@ export default function AgentDashboardPage() {
             className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-red-500 hover:bg-red-50 transition-colors"
           >
             <LogOut size={16} />
-            Disconnect
+            연결 해제
           </button>
         </div>
       </aside>
@@ -184,7 +184,7 @@ export default function AgentDashboardPage() {
         <header className="mb-8 flex items-center justify-between md:hidden">
            <div className="flex items-center gap-2 font-bold">
              <div className="h-6 w-6 rounded bg-neutral-900 text-white flex items-center justify-center text-xs">A</div>
-             Agent Dashboard
+             에이전트 대시보드
            </div>
            <button onClick={() => { localStorage.removeItem("agent_token"); router.push("/agent/login"); }}>
              <LogOut size={18} />
@@ -195,10 +195,10 @@ export default function AgentDashboardPage() {
           {activeTab === "overview" && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold">System Overview</h2>
+                <h2 className="text-2xl font-bold">시스템 개요</h2>
                 {isDemo && (
                   <span className="rounded-full bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-800 border border-yellow-200">
-                    Demo Mode Active
+                    데모 모드 활성
                   </span>
                 )}
               </div>
@@ -206,37 +206,37 @@ export default function AgentDashboardPage() {
               <div className="grid gap-6 md:grid-cols-3">
                 <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm font-medium text-neutral-500">Status</span>
+                    <span className="text-sm font-medium text-neutral-500">상태</span>
                     <Activity size={20} className="text-green-500" />
                   </div>
                   <div className="flex items-baseline gap-2">
                     <span className="text-2xl font-bold">{stats?.status}</span>
                     <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
                   </div>
-                  <p className="mt-2 text-xs text-neutral-500">System functional</p>
+                  <p className="mt-2 text-xs text-neutral-500">시스템 기능 정상</p>
                 </div>
 
                 <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm font-medium text-neutral-500">Uptime</span>
+                    <span className="text-sm font-medium text-neutral-500">가동 시간</span>
                     <Zap size={20} className="text-blue-500" />
                   </div>
                   <div className="text-2xl font-bold">{stats?.uptime}</div>
-                  <p className="mt-2 text-xs text-neutral-500">Last restart: 2h ago</p>
+                  <p className="mt-2 text-xs text-neutral-500">마지막 재시작: 2시간 전</p>
                 </div>
 
                 <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm font-medium text-neutral-500">Database</span>
+                    <span className="text-sm font-medium text-neutral-500">데이터베이스</span>
                     <Database size={20} className={isDemo ? "text-yellow-500" : "text-purple-500"} />
                   </div>
-                  <div className="text-2xl font-bold">{isDemo ? "Mocked" : "Connected"}</div>
-                  <p className="mt-2 text-xs text-neutral-500">{isDemo ? "Running in-memory" : "PostgreSQL Active"}</p>
+                  <div className="text-2xl font-bold">{isDemo ? "모의 데이터" : "연결됨"}</div>
+                  <p className="mt-2 text-xs text-neutral-500">{isDemo ? "인메모리 실행 중" : "PostgreSQL 활성"}</p>
                 </div>
               </div>
 
               <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
-                <h3 className="mb-4 text-lg font-bold">Recent Activity Log</h3>
+                <h3 className="mb-4 text-lg font-bold">최근 활동 로그</h3>
                 {stats?.recentPost ? (
                   <div className="flex items-start gap-4 rounded-xl border border-neutral-100 bg-neutral-50 p-4">
                     <div className="rounded-lg bg-white p-2 shadow-sm">
@@ -250,7 +250,7 @@ export default function AgentDashboardPage() {
                   </div>
                 ) : (
                   <div className="py-8 text-center text-sm text-neutral-500 border border-dashed border-neutral-200 rounded-xl">
-                    No recent activity found.
+                    최근 활동이 없습니다.
                   </div>
                 )}
               </div>
@@ -260,9 +260,9 @@ export default function AgentDashboardPage() {
           {activeTab === "posts" && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold">Posts Management</h2>
+                <h2 className="text-2xl font-bold">게시글 관리</h2>
                 <button className="flex items-center gap-2 rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-800 transition-colors">
-                  <Plus size={16} /> New Post
+                  <Plus size={16} /> 새 게시글
                 </button>
               </div>
               
@@ -270,8 +270,8 @@ export default function AgentDashboardPage() {
                 {posts.length === 0 ? (
                    <div className="rounded-2xl border border-dashed border-neutral-200 bg-white py-12 text-center text-neutral-500">
                      <FileText size={48} className="mx-auto mb-4 text-neutral-200" />
-                     <p>No posts found.</p>
-                     {isDemo && <p className="mt-2 text-xs text-neutral-400">Demo mode has no persistent storage.</p>}
+                     <p>게시글이 없습니다.</p>
+                     {isDemo && <p className="mt-2 text-xs text-neutral-400">데모 모드는 영구 저장소를 지원하지 않습니다.</p>}
                    </div>
                 ) : (
                   posts.map((post) => (
@@ -283,7 +283,7 @@ export default function AgentDashboardPage() {
                       <p className="text-sm text-neutral-600 line-clamp-2">{post.summary || post.content}</p>
                       <div className="mt-4 flex items-center gap-2">
                         <span className="rounded bg-neutral-100 px-2 py-1 text-[10px] font-medium text-neutral-600 uppercase tracking-wide">
-                          {post.gallery?.title || "General"}
+                          {post.gallery?.title || "일반"}
                         </span>
                       </div>
                     </div>
@@ -296,9 +296,9 @@ export default function AgentDashboardPage() {
           {activeTab === "memories" && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold">Memory Bank</h2>
+                <h2 className="text-2xl font-bold">메모리 뱅크</h2>
                 <button className="flex items-center gap-2 rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-800 transition-colors">
-                  <Plus size={16} /> Add Memory
+                  <Plus size={16} /> 메모리 추가
                 </button>
               </div>
 
@@ -306,7 +306,7 @@ export default function AgentDashboardPage() {
                 {memories.length === 0 ? (
                   <div className="col-span-2 rounded-2xl border border-dashed border-neutral-200 bg-white py-12 text-center text-neutral-500">
                     <BrainCircuit size={48} className="mx-auto mb-4 text-neutral-200" />
-                    <p>No memories stored.</p>
+                    <p>저장된 메모리가 없습니다.</p>
                   </div>
                 ) : (
                   memories.map((mem) => (
@@ -338,15 +338,15 @@ export default function AgentDashboardPage() {
       <nav className="fixed bottom-0 left-0 right-0 flex justify-around border-t border-neutral-200 bg-white py-3 md:hidden">
         <button onClick={() => setActiveTab("overview")} className={`flex flex-col items-center gap-1 text-[10px] ${activeTab === "overview" ? "text-neutral-900 font-bold" : "text-neutral-400"}`}>
           <LayoutDashboard size={20} />
-          Overview
+          개요
         </button>
         <button onClick={() => setActiveTab("posts")} className={`flex flex-col items-center gap-1 text-[10px] ${activeTab === "posts" ? "text-neutral-900 font-bold" : "text-neutral-400"}`}>
           <FileText size={20} />
-          Posts
+          게시글
         </button>
         <button onClick={() => setActiveTab("memories")} className={`flex flex-col items-center gap-1 text-[10px] ${activeTab === "memories" ? "text-neutral-900 font-bold" : "text-neutral-400"}`}>
           <BrainCircuit size={20} />
-          Memories
+          메모리
         </button>
       </nav>
     </div>
